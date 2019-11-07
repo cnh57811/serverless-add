@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "084b40d1-9227-4172-9ac0-021c4b144849",
+		"name": "Secure Adder",
+		"description": "Sum two values using aws lambda.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "61725d65-ccb7-472f-b799-9268cf3b1852",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://xi0r8bb9g9.execute-api.us-east-1.amazonaws.com/dev/calc/100/50",
+					"protocol": "https",
+					"host": [
+						"xi0r8bb9g9",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"calc",
+						"100",
+						"50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "ms6hdjqlcu1ktotnraddajgbp2g1m2ks564f5ratuand5eper0j",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "3i914q0vh862kifos32ouacln9",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "content-ty",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://adder-cheinz.auth.us-east-1.amazoncognito.com/oauth2/token?grant_type=client_credentials",
+					"protocol": "https",
+					"host": [
+						"adder-cheinz",
+						"auth",
+						"us-east-1",
+						"amazoncognito",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials"
+						}
+					]
+				},
+				"description": "provide client id and client secret.  get back access token"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
