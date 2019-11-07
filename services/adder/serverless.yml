@@ -1,0 +1,31 @@
+service: adder
+app: adder-app
+org: cheinz
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+
+functions:
+  add:
+    handler: adder.add
+    events:
+      - http:
+          path: add/{value1}/{value2}
+          method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId: 
+               Ref: ApiGatewayAuthorizer
+            scopes:
+              - users/add
+              # subtract scope not allowed to execute this method!
+              # - users/subtract
+
+resources:
+  - ${file(resources/cognito.yml)}
+  - ${file(resources/api-gateway.yml)}

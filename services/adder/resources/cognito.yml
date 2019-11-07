@@ -1,0 +1,42 @@
+Resources:
+  CognitoUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: user-pool-${self:custom.stage}
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: ${self:service}-${self:org}
+      UserPoolId:
+        Ref: CognitoUserPool
+
+  UserPoolResourceServer:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      UserPoolId:
+        Ref: CognitoUserPool
+      Identifier: users
+      Name: user-pool-resource-server-${self:custom.stage}
+      Scopes:
+        - ScopeName: add
+          ScopeDescription: This scope allows a call to the add method
+        - ScopeName: subtract
+          ScopeDescription: This scope does not allow a call to the add method
+
+  CognitoUserPoolClient:
+    DependsOn: UserPoolResourceServer
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: user-pool-client-${self:custom.stage}
+      UserPoolId:
+        Ref: CognitoUserPool
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes:
+        - users/add
+        - users/subtract
+      AllowedOAuthFlows:
+        - client_credentials
+      SupportedIdentityProviders:
+        - COGNITO

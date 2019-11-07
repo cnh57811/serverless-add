@@ -1,0 +1,5 @@
+Just a few notes for myself as I'm learning...
+
+*** TEST LOCALLY ***
+sls invoke local -f <functionName> -p <pathToInputEvent>
+sls invoke local -f add -p ./test/request.json
