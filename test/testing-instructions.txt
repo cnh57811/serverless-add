@@ -1,0 +1,26 @@
+Instructions for how to test Secure Adder
+
+- Download or clone serverless-add repo from https://github.com/cnh57811/serverless-add
+- Open 'Secure Adder.postman_collection.json' in Postman.
+- Run 'sls deploy' from serverless-add/services/adder.
+- Copy the GET endpoint from the console output into the 'add' request url field in the postman collection.
+- Replace {value1} and {value2} with any integers
+- Login to the aws console.  Go to:
+    - Cognito
+    - Manage User Pools
+    - user-pool-dev
+    - App clients
+    - Show Details
+- From the AWS console, copy the 'App client id' into the 'Username' field in the postman token request under the Auth tab.
+- From the AWS console, copy the 'App client secret' into the 'Password' field in the postman token request under the Auth tab.
+- Click Send
+- You should see an 'access_token' in the response window.  Copy that access_token.
+- Paste the access_token into the Authorization value field of the add request under the Headers tab.
+- Click Send
+- You should receive a valid response with the sum of the 2 numbers entered for {value1} and {value2}.
+
+Bonus: Under the params tab of the token request, check the box next to scope:users/subtract.  Retrieve a different access 
+token and paste the new token into the Authorization field of the add header.  Notice the add request returns a "message: Unauthorized".
+This is because by default, the access_token is configured with both scopes(users/add and users/subtract).  If the scope is specified to 
+users/subtract, the token can only be used with http methods that have users/subtract as a valid OAuth scope.  Our add method has 
+users/add scope set as a valid scope, thus a token encoded with only users/subtract will not be authorized.
